@@ -1,0 +1,4 @@
+
+# Processed datasets are stored in Box and not tracked by Git
+/ProcessedDatasets/
+.DS_Store

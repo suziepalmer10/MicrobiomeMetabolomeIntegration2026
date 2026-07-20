@@ -1,0 +1,14 @@
+# configuration file (BASH COMPATIBLE)
+
+file_path="/work/PCDC/shared/IntegratedLearner_202412/A_Integrative_Pipeline_Code"
+input_file="Wang_data.csv"
+
+study_name_base="Wang_urea"
+
+type_of_analysis="continuous"
+response_variable="Urea"
+stratify_variable="Study.Group"
+
+training_proportion=0.8
+num_repeats=3
+num_folds=5

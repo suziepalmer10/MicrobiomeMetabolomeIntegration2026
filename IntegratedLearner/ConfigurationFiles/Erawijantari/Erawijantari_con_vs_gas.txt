@@ -1,0 +1,14 @@
+# configuration file (BASH COMPATIBLE)
+
+file_path="/work/PCDC/shared/IntegratedLearner_202412/A_Integrative_Pipeline_Code"
+input_file="Erawijantari_data.csv"
+
+study_name_base="Erawijantari_convsgas"
+
+type_of_analysis="binary"
+response_variable="Study.Group"
+stratify_variable="Study.Group"
+
+training_proportion=0.8
+num_repeats=3
+num_folds=5

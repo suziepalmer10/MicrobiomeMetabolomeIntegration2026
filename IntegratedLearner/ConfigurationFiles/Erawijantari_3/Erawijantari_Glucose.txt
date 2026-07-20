@@ -1,0 +1,15 @@
+# configuration file (test) - BASH COMPATIBLE
+
+file_path="/work/PCDC/shared/IntegratedLearner_202412/A_Integrative_Pipeline_Code"
+input_file="Erawijantari_data.csv"
+
+# Use EITHER study_name_base (recommended) OR study_name
+study_name_base="Erawijantari_Glucose"
+
+type_of_analysis="continuous"
+response_variable="Glucose"
+stratify_variable="Study.Group"
+
+training_proportion=0.8
+num_repeats=3
+num_folds=5
