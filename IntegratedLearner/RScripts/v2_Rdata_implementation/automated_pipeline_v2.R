@@ -670,10 +670,17 @@ run_one <- function(args, run_id, seed, return_big = FALSE) {
     row_sum <- rowSums(as.matrix(X))
     bad_rows <- which(row_sum <= 0)
     if (length(bad_rows) > 0) {
-      warning("CLR: ", length(bad_rows),
-              " rows have zero total abundance in taxa block. Dropping these rows.")
-      df <- df[-bad_rows, , drop = FALSE]
-      X  <- X[-bad_rows, , drop = FALSE]
+      #modified potential indexing bug
+      #warning("CLR: ", length(bad_rows),
+      #        " rows have zero total abundance in taxa block. Dropping these rows.")
+      #df <- df[-bad_rows, , drop = FALSE]
+      #X  <- X[-bad_rows, , drop = FALSE]
+      stop(
+        "CLR cannot be applied: ",
+        length(bad_rows),
+        " samples have zero total abundance across retained taxa. ",
+        "These samples should be handled before train/test partitioning."
+      )
     }
     
     # Replace zeros with pseudocount
@@ -1852,8 +1859,8 @@ run_one <- function(args, run_id, seed, return_big = FALSE) {
     standardize = TRUE
   )
   sparse_nnls_weights <- as.numeric(coef(final_glmnet))
-  meta_train_stack$sparse_weighted <- as.numeric(predict(final_glmnet, newx = as.matrix(meta_train_stack[, c("Metabolomics", "MSS")]), s = best_lambda))
-  
+  #meta_train_stack$sparse_weighted <- as.numeric(predict(final_glmnet, newx = as.matrix(meta_train_stack[, c("Metabolomics", "MSS")]), s = best_lambda))
+  meta_train_stack$sparse_weighted <- as.numeric(predict(final_glmnet, newx = as.matrix(meta_train_stack[, c("Metabolomics", "MSS")]), s = best_lambda, type="response"))
   pls_cv <- pls::plsr(GroundTruth ~ Metabolomics + MSS, data = meta_train_stack, validation = "CV")
   best_ncomp <- which.min(pls_cv$validation$PRESS)
   pls_model <- pls::plsr(GroundTruth ~ Metabolomics + MSS, data = meta_train_stack, ncomp = best_ncomp)
@@ -2012,7 +2019,8 @@ run_one <- function(args, run_id, seed, return_big = FALSE) {
   
   test_nnls_pred   <- as.numeric(as.matrix(stack_test[, c("Metabolomics", "MSS")]) %*% nnls_weights)
   test_average     <- 0.5 * stack_test$Metabolomics + 0.5 * stack_test$MSS
-  test_sparse_pred <- as.numeric(predict(final_glmnet, newx = as.matrix(stack_test[, c("Metabolomics", "MSS")]), s = best_lambda))
+  #test_sparse_pred <- as.numeric(predict(final_glmnet, newx = as.matrix(stack_test[, c("Metabolomics", "MSS")]), s = best_lambda))
+  test_sparse_pred <- as.numeric(predict(final_glmnet, newx = as.matrix(stack_test[, c("Metabolomics", "MSS")]), s = best_lambda, type = "response"))
   test_pls_pred <- drop(as.data.frame(predict(pls_model, stack_test[, c("Metabolomics", "MSS")], ncomp = best_ncomp))[, 1])
   
   final_test_metrics <- list(
