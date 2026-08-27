@@ -1,9 +1,5 @@
 # MicrobiomeMetabolomeIntegration2026
 
----
-title: "DataPreprocessing"
-output: github_document
----
 
 ## DataPreprocessing
 
