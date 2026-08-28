@@ -84,10 +84,10 @@ This subdirectory contains the workflow used to evaluate whether different learn
 
 Feature overlap is reported as:
 
-\[
+$$
 \text{Top-20 overlap (\%)} =
-\frac{\text{Number of shared top-20 features}}{20}\times 100.
-\]
+\frac{\text{Number of shared top-20 features}}{20} \times 100
+$$
 
 Diagonal cells represent comparisons of a condition with itself and are displayed as 100%.
 
